@@ -30,7 +30,9 @@ class Nub < Formula
     # The release archive is a tree (bin/nub, bin/nubx, runtime/), not a bare
     # binary: nub loads runtime/ (preload + vendored polyfills + native addon)
     # relative to the real binary, so the whole tree must stay together. Install
-    # it into libexec and symlink the executables onto PATH.
+    # it into libexec and symlink the executables onto PATH. Plain symlinks (no
+    # wrapper script) so each call execs the native binary with zero overhead;
+    # nub canonicalizes current_exe() to find runtime/ beside the real binary.
     libexec.install Dir["*"]
     bin.install_symlink libexec/"bin/nub"
     bin.install_symlink libexec/"bin/nubx"
