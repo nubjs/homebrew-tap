@@ -1,5 +1,5 @@
 class Nub < Formula
-  desc "Rust CLI that augments Node — fast TypeScript runtime and pnpm-compatible package manager"
+  desc "Fast TypeScript runtime and package manager that augments Node"
   homepage "https://github.com/nubjs/nub"
   version "0.1.14"
   license "MIT"
@@ -40,8 +40,8 @@ class Nub < Formula
     assert_match version.to_s, shell_output("#{bin}/nub --version")
 
     # Prove runtime/ was installed correctly: a bare-binary install passes
-    # --version but cannot transpile TypeScript (it needs runtime/preload).
-    (testpath/"hello.ts").write("const greet = (name: string): string => `hi ${name}`;\nconsole.log(greet(\"nub\"));\n")
+    # --version but cannot transpile TS (it needs runtime/preload).
+    (testpath/"hello.ts").write("const x: string = \"hi nub\";\nconsole.log(x);\n")
     assert_equal "hi nub", shell_output("#{bin}/nub #{testpath}/hello.ts").strip
   end
 end
