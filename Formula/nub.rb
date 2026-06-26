@@ -1,51 +1,43 @@
 class Nub < Formula
   desc "Fast TypeScript runtime and package manager that augments Node"
   homepage "https://github.com/nubjs/nub"
-  version "0.2.3"
+  version "0.2.4"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.2.3/nub-darwin-arm64.tar.gz"
-      sha256 "b550e25cd119db95c9d56fb14cec972956e1d835cea15228c8625cd13cd77f94"
+      url "https://github.com/nubjs/nub/releases/download/v0.2.4/nub-darwin-arm64.tar.gz"
+      sha256 "c9ed9d1b27a02eacb236965e9324286913b2822f02009e2706c23fa1f6900d69"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.2.3/nub-darwin-x64.tar.gz"
-      sha256 "6f8fa5b1acc5aa047d1447d1e93d05d46acd4146ca332a2489252db5293b300d"
+      url "https://github.com/nubjs/nub/releases/download/v0.2.4/nub-darwin-x64.tar.gz"
+      sha256 "c3b1130e176ea6eac981b762ce7192f4b5dad49d5c4c344fdab36fdacf0d6784"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.2.3/nub-linux-arm64.tar.gz"
-      sha256 "9441cc730cb0fdf5acc0762b296f997f2590e0ed1a71ca3ca96a92a34a7a8552"
+      url "https://github.com/nubjs/nub/releases/download/v0.2.4/nub-linux-arm64.tar.gz"
+      sha256 "9f92e1a624140eeaa66bd4d8f39b53b52206cb2cec6fdbe3aaf546c79a472af1"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.2.3/nub-linux-x64.tar.gz"
-      sha256 "40f5148ec41988a23bf6d22ed6673a9c0ab69c084eaedaa241ac36a597f883db"
+      url "https://github.com/nubjs/nub/releases/download/v0.2.4/nub-linux-x64.tar.gz"
+      sha256 "3412d588f6c57b15dfe0c2f0981f741a76bd634135948c0c975ed9aa5c14a4da"
     end
   end
 
   def install
-    # The release archive is a tree (bin/nub, bin/nubx, runtime/), not a bare
-    # binary: nub loads runtime/ (preload + vendored polyfills + native addon)
-    # relative to the real binary, so the whole tree must stay together. Install
-    # it into libexec and symlink the executables onto PATH. Plain symlinks (no
-    # wrapper script) so each call execs the native binary with zero overhead;
-    # nub canonicalizes current_exe() to find runtime/ beside the real binary.
-    libexec.install Dir["*"]
-    bin.install_symlink libexec/"bin/nub"
-    bin.install_symlink libexec/"bin/nubx"
+    # nub is a single self-contained binary: it embeds its runtime (preload +
+    # vendored polyfills + native addon) and JIT-extracts it to ~/.cache/nub on
+    # first run, so there is no sidecar to keep beside the binary. The archive ships
+    # bin/nub + bin/nubx (both real copies; nub picks its verb from the argv[0]
+    # basename), so install them straight onto PATH — no libexec, no symlink dance.
+    bin.install "bin/nub", "bin/nubx"
   end
 
   test do
     assert_match version.to_s, shell_output("#{bin}/nub --version")
-
-    # Prove the runtime tree (preload + vendored polyfills + native addon) was
-    # installed alongside the binary — a bare-binary install would be missing it.
     # Do NOT run a transpile here: `brew test` runs on a clean machine with no Node
     # on PATH, and nub augments the user's Node rather than bundling one.
-    assert_path_exists libexec/"runtime/preload.mjs"
-    assert_path_exists libexec/"runtime/addons/nub-native.node"
   end
 end
