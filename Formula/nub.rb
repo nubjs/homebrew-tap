@@ -1,28 +1,28 @@
 class Nub < Formula
   desc "Fast TypeScript runtime and package manager that augments Node"
   homepage "https://github.com/nubjs/nub"
-  version "0.7.2"
+  version "0.7.3"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.2/nub-darwin-arm64.tar.gz"
-      sha256 "3d5f3b4005f56cbf78337bb0e7708817b5c98de0e2528897f628996084150837"
+      url "https://github.com/nubjs/nub/releases/download/v0.7.3/nub-darwin-arm64.tar.gz"
+      sha256 "c2cb836e91a2aa5652291f0cca3a4dc21dab9ab91b8f87098e134a3eec4f7f5f"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.2/nub-darwin-x64.tar.gz"
-      sha256 "7d80793e4b6125cbdd3a0a1adedf25ca842862581af97f13aa78364560265bc2"
+      url "https://github.com/nubjs/nub/releases/download/v0.7.3/nub-darwin-x64.tar.gz"
+      sha256 "f20a1e7d6ba36e83d705c25a9c8a6c62d8e50af2505f53928278169d32fa036b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.2/nub-linux-arm64.tar.gz"
-      sha256 "e15297db0fcc2db93b701aea755e59a1780f3e77a2ca2e8eee6a3a6e255d3058"
+      url "https://github.com/nubjs/nub/releases/download/v0.7.3/nub-linux-arm64.tar.gz"
+      sha256 "5cbc0ffa2a0da9aa838068b7fd8b86166cfffb6db797d9fa0bfee84e5e27d2fa"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.2/nub-linux-x64.tar.gz"
-      sha256 "4be7915a47079422ceb38d79f43a6f9018e59eab0895736ad8e42d1c04a5f15c"
+      url "https://github.com/nubjs/nub/releases/download/v0.7.3/nub-linux-x64.tar.gz"
+      sha256 "208236503aeeed6668bde94184d58c4714ff739f8a569e1ccc808bee7d3250f5"
     end
   end
 
