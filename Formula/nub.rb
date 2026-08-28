@@ -1,28 +1,28 @@
 class Nub < Formula
   desc "Fast TypeScript runtime and package manager that augments Node"
   homepage "https://github.com/nubjs/nub"
-  version "0.7.5"
+  version "0.8.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.5/nub-darwin-arm64.tar.gz"
-      sha256 "dd5a6a9bf30d96e36fe5ba7df870156db7089b3b5bbf73734c881ecc86ed693f"
+      url "https://github.com/nubjs/nub/releases/download/v0.8.0/nub-darwin-arm64.tar.gz"
+      sha256 "5f1f4429d1419648254f5fda21ce36c6a62fa08ad57bcce1d436ec6aa090ad84"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.5/nub-darwin-x64.tar.gz"
-      sha256 "45396491a922e9a6ff75ab6add500bf597b2be51b80acbaeaa055a7a9d845748"
+      url "https://github.com/nubjs/nub/releases/download/v0.8.0/nub-darwin-x64.tar.gz"
+      sha256 "58fc1dd80eca3e6f50d2830975c688c7b1af1c3cba9cf463f3a86124111be7af"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.5/nub-linux-arm64.tar.gz"
-      sha256 "de28e3df5a84fb410640d7ab820e172401d85d63ba44d4b6f6454bf9c27380d3"
+      url "https://github.com/nubjs/nub/releases/download/v0.8.0/nub-linux-arm64.tar.gz"
+      sha256 "c8916cfb392659352a4c3c1986ef6ba77fe929b770cef5fbded873c644885630"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.7.5/nub-linux-x64.tar.gz"
-      sha256 "34ad027792b7702e88f71eadde9fc2bf4ebade13a1c91b92fa056954f15880eb"
+      url "https://github.com/nubjs/nub/releases/download/v0.8.0/nub-linux-x64.tar.gz"
+      sha256 "11d4c09298fa3977d8ee76f32600af1c8d0d4ba03ba839ffe6d4df5e8052513b"
     end
   end
 
@@ -41,6 +41,13 @@ class Nub < Formula
     # ships, so the alias is created here — install.sh, install.ps1 and flake.nix
     # each do the same for their own channel.
     bin.install_symlink bin/"nub" => "nubx"
+    # The nub compile launcher template resolves as a SIBLING of the running nub
+    # (compile::launcher::locate), so it has to land wherever the binary did —
+    # libexec would put it out of reach. Accepted cost: brew links the keg's bin
+    # into the prefix, so the template becomes a (harmless, namespaced) entry on
+    # PATH. Globbed, so this still installs from a pre-template archive: this
+    # branch stages it at bin/nub-launcher-<platform> (release.yml), main does not.
+    bin.install Dir["bin/nub-launcher-*"]
   end
 
   test do
