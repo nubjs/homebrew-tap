@@ -1,28 +1,28 @@
 class Nub < Formula
   desc "Fast TypeScript runtime and package manager that augments Node"
   homepage "https://github.com/nubjs/nub"
-  version "0.9.3"
+  version "0.9.5"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.9.3/nub-darwin-arm64.tar.gz"
-      sha256 "a21477648c12168404fe177d69011eebde973d14d7b9714026d6d0e5776efce9"
+      url "https://github.com/nubjs/nub/releases/download/v0.9.5/nub-darwin-arm64.tar.gz"
+      sha256 "b601d669a8e971eaa958942bdde4e310496ca0b5da7fb113406bc1b4703f2847"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.9.3/nub-darwin-x64.tar.gz"
-      sha256 "b866b2eeef447bf174d597e9425e757aa051d4d9460169eef004a30372b30d34"
+      url "https://github.com/nubjs/nub/releases/download/v0.9.5/nub-darwin-x64.tar.gz"
+      sha256 "a628e7afae5f4ad0f201e8377ee94136e4784f6db3110199690fb737c6f89330"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/nubjs/nub/releases/download/v0.9.3/nub-linux-arm64.tar.gz"
-      sha256 "244355d322eeb332be938634148b81019a9b838d0bb889c668351f5b55b2908a"
+      url "https://github.com/nubjs/nub/releases/download/v0.9.5/nub-linux-arm64.tar.gz"
+      sha256 "e6c0dace69682819f2cdbd8a3403e8d3e10ebc8e3ae8110cc2ec776c60c218e8"
     end
     on_intel do
-      url "https://github.com/nubjs/nub/releases/download/v0.9.3/nub-linux-x64.tar.gz"
-      sha256 "f085a11ed0fa18050d3dad31e676ba3e2f69d6b4a4a35a17cd88077485802cf0"
+      url "https://github.com/nubjs/nub/releases/download/v0.9.5/nub-linux-x64.tar.gz"
+      sha256 "f1f21f6365c454ec820cee5ad3ce9b014d4ce9bebf22390200d390e53693ecdf"
     end
   end
 
@@ -37,9 +37,10 @@ class Nub < Formula
     # and ignore runtime/.
     bin.install "bin/nub"
     # `nubx` is the same binary under a second name: nub reads its verb from the
-    # argv[0] basename (Argv0::detect in crates/nub-cli/src/cli.rs). Only one copy
-    # ships, so the alias is created here — install.sh, install.ps1 and flake.nix
-    # each do the same for their own channel.
+    # argv[0] basename (Argv0::detect in crates/nub-cli/src/cli.rs). The archive
+    # carries bin/nubx as a symlink, but `bin.install "bin/nub"` above takes the
+    # one file, so the alias is created here — flake.nix does the same for its
+    # channel.
     bin.install_symlink bin/"nub" => "nubx"
     # `nubr` is the third name: the unified runner (a file, a package.json
     # script, or an installed bin), the command `@nubjs/runner` ships, run out of
